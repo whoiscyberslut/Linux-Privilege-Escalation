@@ -1022,6 +1022,24 @@ cyberslut@htb[/htb]$ find / -type d -name ".*" -ls 2>/dev/null
    657527      4 drwxr-xr-x 170 root        root            4096 Aug 31 08:55 /usr/lib/debug/.build-id
 ```
 
+- In memory passwords:
+
+```shell-session
+ strings /dev/mem -n10 | grep -i PASS
+```
+
+- Sensitive Files:
+  
+```shell-session
+ locate password | more           
+/boot/grub/i386-pc/password.mod
+/etc/pam.d/common-password
+/etc/pam.d/gdm-password
+/etc/pam.d/gdm-password.original
+/lib/live/config/0031-root-password
+...
+```
+  
 - Temporary files: three default folders are intended for temporary files. These folders are visible to all users and can be read. In addition, temporary logs or script output can be found there. Both `/tmp` and `/var/tmp` are used to store data temporarily. However, the key difference is how long the data is stored in these file systems. The data retention time for `/var/tmp` is much longer than that of the `/tmp` directory. By default, all files and data stored in /var/tmp are retained for up to 30 days. In /tmp, on the other hand, the data is automatically deleted after ten days. In addition, all temporary files stored in the `/tmp` directory are deleted immediately when the system is restarted. Therefore, the `/var/tmp` directory is used by programs to store data that must be kept between reboots temporarily.
 
 ```shell-session
