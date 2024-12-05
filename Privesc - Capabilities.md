@@ -43,6 +43,8 @@ Several Linux capabilities can be used to escalate a user's privileges to `root`
 
 Enumerating Capabilities: To enumerate all existing capabilities for all existing binary executables on a Linux system, we can use the following command:
 
+This one-liner uses the `find` command to search for all binary executables in the directories where they are typically located and then uses the `-exec` flag to run the `getcap` command on each, showing the capabilities that have been set for that binary. The output of this command will show a list of all binary executables on the system, along with the capabilities that have been set for each.
+
 ```shell-session
 cyberslut@htb[/htb]$ find /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -type f -exec getcap {} \;
 
@@ -51,7 +53,11 @@ cyberslut@htb[/htb]$ find /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -typ
 /usr/bin/mtr-packet cap_net_raw=ep
 ```
 
-This one-liner uses the `find` command to search for all binary executables in the directories where they are typically located and then uses the `-exec` flag to run the `getcap` command on each, showing the capabilities that have been set for that binary. The output of this command will show a list of all binary executables on the system, along with the capabilities that have been set for each.
+This command recursively scans the entire filesystem (root directory /) for files with capabilities, regardless of their location.
+
+```shell-session
+getcap -r / 2>/dev/null
+```
 
 Exploitation
 If we gained access to the system with a low-privilege account, then discovered the `cap_dac_override` capability:
