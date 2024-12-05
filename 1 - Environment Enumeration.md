@@ -145,7 +145,8 @@ cyberslut@htb[/htb]$ echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 ```
 
-- route or netstat -rn: check out the routing table; here we can see what other networks are available via which interface
+- route or netstat -rn: check out the routing table; here we can see what other networks are available via which interface; netstat -lnp gives a listing of listening processes (switch the l option to a for all), which can reveal some interesting things listening on otherwise uninteresting ports or interfaces.
+
 
 ```shell-session
 cyberslut@htb[/htb]$ route
