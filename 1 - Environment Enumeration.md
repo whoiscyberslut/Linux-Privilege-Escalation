@@ -537,6 +537,14 @@ Identify any existing public or private keys and their permissions:
 ls -la /home /root /etc/ssh /home/*/.ssh/; locate id_rsa; locate id_dsa; find / -name id_rsa 2> /dev/null; find / -name id_dsa 2> /dev/null; find / -name authorized_keys 2> /dev/null; cat /home/*/.ssh/id_rsa; cat /home/*/.ssh/id_dsa
 ```
 
+```
+find / -name authorized_keys 2> /dev/null
+```
+
+```
+find / -name id_rsa 2> /dev/null
+```
+
 - Bash history w/ the history command: check a user's bash history, as they may be passing passwords as an argument on the command line, working with git repositories, setting up cron jobs, and more. Reviewing what the user has been doing can give you considerable insight into the type of server you land on and give a hint as to privilege escalation paths. 
 
 ```shell-session
